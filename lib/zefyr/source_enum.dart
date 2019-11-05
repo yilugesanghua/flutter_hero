@@ -1,0 +1,1 @@
+enum SourceEnum { CAMERA, GALLERY }

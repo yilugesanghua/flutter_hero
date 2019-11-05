@@ -1,7 +1,106 @@
+import 'dart:ui';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_hero/hero/hero_first.dart';
 
+import 'calendar/calendar.dart';
+import 'calendar/sliver_calendar_app_bar.dart';
+
+double statusBarHeight = MediaQueryData.fromWindow(window).padding.top;
+
 void main() => runApp(MyApp());
+
+class CalendarViewApp extends StatelessWidget {
+  void handleNewDate(date) {
+    print("handleNewDate ${date}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.purple,
+      ),
+      home: Scaffold(
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: CusSliverPersistentHeaderDelegate(),
+            ),
+//            SliverSafeArea(
+//              sliver: SliverToBoxAdapter(
+//                child: new Calendar(
+//                  onSelectedRangeChange: (range) =>
+//                      print("Range is ${range.item1}, ${range.item2}"),
+//                  isExpandable: true,
+//                ),
+//              ),
+//            ),
+
+//            SliverAppBar( snap: false,expandedHeight: 250,floating: true,),
+//
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                if (index.isEven) {
+                  return Container(
+                    height: 100,
+                    color: Colors.yellow,
+                  );
+                } else {
+                  return Divider(
+                    height: 10,
+                    color: Colors.transparent,
+                  );
+                }
+              }),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CusSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+//    child: new Calendar(
+//      onSelectedRangeChange: (range) =>
+//          print("Range is ${range.item1}, ${range.item2}"),
+//      isExpandable: true,
+//    ),
+    return Container(
+      color: Colors.blue,
+      child: SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(top: 12,bottom: 12),
+          child: Icon(
+            Icons.access_time,
+            color: Colors.red,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  // TODO: implement maxExtent
+  double get maxExtent => math.max(minExtent, minExtent);
+
+  @override
+  // TODO: implement minExtent
+  double get minExtent => kToolbarHeight + statusBarHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    // TODO: implement shouldRebuild
+    return true;
+  }
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

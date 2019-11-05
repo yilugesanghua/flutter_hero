@@ -25,8 +25,6 @@ class HeroFirstState extends State<HeroFirst> {
         width: double.infinity,
         height: double.infinity,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 200,
